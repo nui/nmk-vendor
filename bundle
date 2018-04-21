@@ -1,0 +1,18 @@
+#!/bin/zsh
+set -xe
+
+DOT_LOCAL=$1
+NAME=${DOT_LOCAL:h:h:t}
+shift
+
+for tag in $@; do
+    IMAGE=nuimk/nmkpkg:$tag
+    TAR=nmkpkg-$tag-$NAME.tar
+    CID=$(docker run -d $IMAGE $DOT_LOCAL)
+    docker wait $CID
+    docker cp $CID:/local.tar.gz $TAR.gz
+    gunzip $TAR.gz
+    xz $TAR
+    docker rm $CID
+done
+

@@ -1,0 +1,6 @@
+#!/bin/zsh
+set -xe
+
+for tag in $@; do
+    docker build -t nuimk/nmkpkg:$tag $tag
+done
