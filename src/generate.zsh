@@ -22,18 +22,21 @@ local ag_version=2.1.0
 local libevent_version=2.1.8
 local tmux_tag=2.7
 local zsh_version=5.5.1
+local htop_version=2.2.0
 
 local ag_archive=the_silver_searcher-${ag_version}.tar.gz
 local libevent_archive=libevent-${libevent_version}-stable.tar.gz
 local tmux_archive=tmux-${tmux_tag}.tar.gz
 local zsh_archive=zsh-${zsh_version}.tar.gz
+local htop_archive=htop-${htop_version}.tar.gz
 cat << EOF
 ADD *.sha /build/
 WORKDIR /build
 ENV LIBEVENT_BUILD_DIR=libevent-${libevent_version}-stable \\
     TMUX_BUILD_DIR=tmux-${tmux_tag} \\
     AG_BUILD_DIR=the_silver_searcher-${ag_version} \\
-    ZSH_BUILD_DIR=zsh-zsh-${zsh_version}
+    ZSH_BUILD_DIR=zsh-zsh-${zsh_version} \\
+    HTOP_BUILD_DIR=htop-${htop_version}
 
 RUN curl -o ${libevent_archive} -sSL "https://github.com/libevent/libevent/releases/download/release-${libevent_version}-stable/${libevent_archive}" \\
     && sha256sum -c ${libevent_archive}.sha \\
@@ -51,6 +54,10 @@ RUN curl -o ${ag_archive} -sSL "http://geoff.greer.fm/ag/releases/${ag_archive}"
     && sha256sum -c ${ag_archive}.sha \\
     && tar -xf ${ag_archive} \\
     && rm ${ag_archive} ${ag_archive}.sha
+RUN curl -o ${htop_archive} -sSL "https://github.com/hishamhm/htop/archive/${htop_version}.tar.gz" \\
+    && sha256sum -c ${htop_archive}.sha \\
+    && tar -xf ${htop_archive} \\
+    && rm ${htop_archive} ${htop_archive}.sha
 
 COPY entrypoint /
 ENTRYPOINT ["/entrypoint"]

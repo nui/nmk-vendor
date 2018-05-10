@@ -14,5 +14,7 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
     && apt-get -y install liblzma-dev libpcre3-dev pkg-config zlib1g-dev \
     # for build zsh documents
     && apt-get -y install yodl \
+    # for htop
+    && apt-get -y install libncursesw5-dev \
     && rm -rf /var/lib/apt/lists/*
 

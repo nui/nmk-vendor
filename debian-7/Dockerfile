@@ -17,6 +17,8 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
     && apt-get -y install liblzma-dev libpcre3-dev pkg-config zlib1g-dev \
     # for build zsh documents
     && apt-get -y install yodl \
+    # for htop
+    && apt-get -y install libncursesw5-dev \
     && rm -rf /var/lib/apt/lists/*
 
 ADD *.sha /build/
@@ -24,7 +26,8 @@ WORKDIR /build
 ENV LIBEVENT_BUILD_DIR=libevent-2.1.8-stable \
     TMUX_BUILD_DIR=tmux-2.7 \
     AG_BUILD_DIR=the_silver_searcher-2.1.0 \
-    ZSH_BUILD_DIR=zsh-zsh-5.5.1
+    ZSH_BUILD_DIR=zsh-zsh-5.5.1 \
+    HTOP_BUILD_DIR=htop-2.2.0
 
 RUN curl -o libevent-2.1.8-stable.tar.gz -sSL "https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz" \
     && sha256sum -c libevent-2.1.8-stable.tar.gz.sha \
@@ -42,6 +45,10 @@ RUN curl -o the_silver_searcher-2.1.0.tar.gz -sSL "http://geoff.greer.fm/ag/rele
     && sha256sum -c the_silver_searcher-2.1.0.tar.gz.sha \
     && tar -xf the_silver_searcher-2.1.0.tar.gz \
     && rm the_silver_searcher-2.1.0.tar.gz the_silver_searcher-2.1.0.tar.gz.sha
+RUN curl -o htop-2.2.0.tar.gz -sSL "https://github.com/hishamhm/htop/archive/2.2.0.tar.gz" \
+    && sha256sum -c htop-2.2.0.tar.gz.sha \
+    && tar -xf htop-2.2.0.tar.gz \
+    && rm htop-2.2.0.tar.gz htop-2.2.0.tar.gz.sha
 
 COPY entrypoint /
 ENTRYPOINT ["/entrypoint"]
