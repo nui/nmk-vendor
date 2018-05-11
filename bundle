@@ -1,4 +1,44 @@
 #!/bin/zsh
+
+# Parse options {{{
+usage() {
+cat <<- EOU
+Usage: $_SCRIPT_NAME [OPTIONS]
+
+optional arguments:
+  -c, --cloud           cloud build
+  -h, --help            print this help message
+EOU
+}
+
+getopt_options=(
+    cloud
+    help
+)
+
+if ! getopt_tmp=$(POSIXLY_CORRECT=true getopt -q -o ch --long ${(j:,:)getopt_options} -- "$@"); then
+    # exit if error
+    usage
+    exit 1
+fi
+
+eval set -- $getopt_tmp
+unset getopt_options
+unset getopt_tmp
+
+# Variables
+integer _CLOUD=0
+
+while true; do
+    case $1 in
+        -c | --cloud ) _CLOUD=1; shift ;;
+        -h | --help ) usage; exit 0 ;;
+        -- ) shift; break ;;
+    esac
+done
+readonly _CLOUD
+# }}}
+
 set -xe
 
 DOT_LOCAL=$1
@@ -7,8 +47,16 @@ shift
 
 CANT_COMPILE_HTOP=(centos-6.6 centos-6.7 centos-6.8 centos-6.9)
 
+if (( $_CLOUD )); then
+    gcloud auth configure-docker
+fi
+
 for tag in $@; do
-    IMAGE=nuimk/nmkpkg:$tag
+    if (( $_CLOUD )); then
+        IMAGE=gcr.io/nuipnp-com/nmkpkg:$tag
+    else
+        IMAGE=nuimk/nmkpkg:$tag
+    fi
     TAR=nmkpkg-$tag-$NAME.tar
     if [[ ${CANT_COMPILE_HTOP[(r)$tag]} == $tag ]]; then
         OPTIONS=(--no-htop)

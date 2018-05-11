@@ -1,0 +1,7 @@
+#!/bin/zsh
+set -xe
+
+for tag in $@; do
+    gcloud container builds submit --tag gcr.io/nuipnp-com/nmkpkg:$tag $tag
+done
+

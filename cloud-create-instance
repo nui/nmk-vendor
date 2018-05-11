@@ -1,0 +1,11 @@
+#!/bin/sh
+gcloud compute instances create nmkpkg \
+    --boot-disk-size=20GB \
+    --boot-disk-type=pd-ssd \
+    --image-family debian-9 \
+    --image-project debian-cloud \
+    --machine-type n1-highcpu-2 \
+    --scopes=storage-full \
+    --service-account="storage-object-admin@nuipnp-com.iam.gserviceaccount.com" \
+    --zone us-central1-a \
+    --preemptible
