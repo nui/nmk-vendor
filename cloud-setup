@@ -17,4 +17,5 @@ sudo apt-get --no-install-recommends -y install docker-ce
 sudo gpasswd -a $USER docker
 sudo apt-get -y install git python tmux zsh neovim
 curl -sSL https://storage.googleapis.com/nmk.nuimk.com/nmk.tar.gz | tar -C ~ -xzf -
-
+.nmk/setup/bash-alias
+git clone https://github.com/nuimk/nmkpkg

@@ -1,11 +1,24 @@
 #!/bin/sh
+set -x
+
 gcloud compute instances create nmkpkg \
-    --boot-disk-size=20GB \
-    --boot-disk-type=pd-ssd \
+    --boot-disk-size 20GB \
+    --boot-disk-type pd-ssd \
     --image-family debian-9 \
     --image-project debian-cloud \
     --machine-type n1-highcpu-2 \
+    --metadata-from-file startup-script=cloud-startup-script \
     --scopes=storage-full \
-    --service-account="storage-object-admin@nuipnp-com.iam.gserviceaccount.com" \
+    --service-account storage-object-admin@nuipnp-com.iam.gserviceaccount.com \
     --zone us-central1-a \
     --preemptible
+gcloud compute scp \
+    --plain \
+    --strict-host-key-checking no \
+    --zone us-central1-a \
+    cloud-setup nui@nmkpkg:
+gcloud compute ssh \
+    --plain \
+    --strict-host-key-checking no \
+    --zone us-central1-a \
+    nui@nmkpkg
