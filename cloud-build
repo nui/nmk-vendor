@@ -1,5 +1,5 @@
 #!/bin/zsh
-set -xe
+set -ex
 
 PROJECT=nuimk-io
 

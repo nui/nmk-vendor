@@ -1,5 +1,5 @@
 #!/bin/sh
-set -x
+set -ex
 
 PROJECT=nuimk-io
 
@@ -9,9 +9,8 @@ gcloud --project $PROJECT compute instances create nmkpkg \
     --image-family debian-9 \
     --image-project debian-cloud \
     --machine-type n1-highcpu-2 \
-    --metadata-from-file startup-script=cloud-startup-script \
     --scopes=storage-full \
-    --service-account storage-object-admin@nuipnp-com.iam.gserviceaccount.com \
+    --service-account nmkpkg@nuimk-io.iam.gserviceaccount.com \
     --zone us-central1-a \
     --preemptible
 gcloud --project $PROJECT compute scp \

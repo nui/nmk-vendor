@@ -1,2 +1,4 @@
 #!/bin/sh
+set -ex
+
 gcloud --project nuimk-io compute instances delete nmkpkg

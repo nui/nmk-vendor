@@ -39,7 +39,7 @@ done
 readonly _CLOUD
 # }}}
 
-set -xe
+set -ex
 
 DOT_LOCAL=$1
 NAME=${DOT_LOCAL:h:h:t}
