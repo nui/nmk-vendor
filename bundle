@@ -53,7 +53,7 @@ fi
 
 for tag in $@; do
     if (( $_CLOUD )); then
-        IMAGE=gcr.io/nuipnp-com/nmkpkg:$tag
+        IMAGE=gcr.io/nuimk-io/nmkpkg:$tag
     else
         IMAGE=nuimk/nmkpkg:$tag
     fi
