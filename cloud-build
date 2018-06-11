@@ -4,5 +4,7 @@ set -ex
 PROJECT=nuimk-io
 
 for tag in $@; do
-    gcloud --project $PROJECT container builds submit --tag gcr.io/$PROJECT/nmkpkg:$tag $tag
+    gcloud container builds submit $tag \
+        --tag gcr.io/$PROJECT/nmkpkg:$tag \
+        --project $PROJECT
 done

@@ -2,8 +2,9 @@
 set -ex
 
 PROJECT=nuimk-io
+ZONE=us-central1-a
 
-gcloud --project $PROJECT compute instances create nmkpkg \
+gcloud compute instances create nmkpkg \
     --boot-disk-size 20GB \
     --boot-disk-type pd-ssd \
     --image-family debian-9 \
@@ -11,15 +12,20 @@ gcloud --project $PROJECT compute instances create nmkpkg \
     --machine-type n1-highcpu-2 \
     --scopes=storage-full \
     --service-account nmkpkg@nuimk-io.iam.gserviceaccount.com \
-    --zone us-central1-a \
-    --preemptible
-gcloud --project $PROJECT compute scp \
+    --preemptible \
+    --project $PROJECT \
+    --zone $ZONE
+gcloud compute scp \
+    cloud-setup nui@nmkpkg: \
     --plain \
     --strict-host-key-checking no \
-    --zone us-central1-a \
-    cloud-setup nui@nmkpkg:
-gcloud --project $PROJECT compute ssh \
+    --project $PROJECT \
+    --zone $ZONE
+gcloud compute ssh nui@nmkpkg \
+    --command="env DEBIAN_FRONTEND=noninteractive sh cloud-setup" \
     --plain \
     --strict-host-key-checking no \
-    --zone us-central1-a \
-    nui@nmkpkg
+    --project $PROJECT \
+    --zone $ZONE
+gcloud compute instances list \
+    --project $PROJECT
