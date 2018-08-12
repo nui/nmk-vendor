@@ -10,7 +10,7 @@ gcloud compute instances create nmkpkg \
     --image-family debian-9 \
     --image-project debian-cloud \
     --machine-type n1-highcpu-2 \
-    --scopes=storage-full \
+    --scopes=cloud-platform \
     --service-account nmkpkg@nuimk-io.iam.gserviceaccount.com \
     --preemptible \
     --project $PROJECT \
@@ -24,7 +24,7 @@ gcloud compute scp \
 gcloud compute ssh nui@nmkpkg \
     --command="env DEBIAN_FRONTEND=noninteractive sh cloud-setup" \
     --plain \
-    --strict-host-key-checking no \
+    --strict-host-key-checking=no \
     --project $PROJECT \
     --zone $ZONE
 gcloud compute instances list \
