@@ -24,7 +24,7 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
 ADD *.sha /build/
 WORKDIR /build
 ENV LIBEVENT_BUILD_DIR=libevent-2.1.8-stable \
-    TMUX_BUILD_DIR=tmux-2.7 \
+    TMUX_BUILD_DIR=tmux-2.8 \
     AG_BUILD_DIR=the_silver_searcher-2.2.0 \
     ZSH_BUILD_DIR=zsh-zsh-5.5.1 \
     HTOP_BUILD_DIR=htop-2.2.0
@@ -33,10 +33,10 @@ RUN curl -o libevent-2.1.8-stable.tar.gz -sSL "https://github.com/libevent/libev
     && sha256sum -c libevent-2.1.8-stable.tar.gz.sha \
     && tar -xf libevent-2.1.8-stable.tar.gz \
     && rm libevent-2.1.8-stable.tar.gz libevent-2.1.8-stable.tar.gz.sha
-RUN curl -o tmux-2.7.tar.gz -sSL "https://github.com/nuimk/nmk-tmux/releases/download/2.7/tmux-2.7.tar.gz" \
-    && sha256sum -c tmux-2.7.tar.gz.sha \
-    && tar -xf tmux-2.7.tar.gz \
-    && rm tmux-2.7.tar.gz tmux-2.7.tar.gz.sha
+RUN curl -o tmux-2.8.tar.gz -sSL "https://github.com/nuimk/nmk-tmux/releases/download/2.8/tmux-2.8.tar.gz" \
+    && sha256sum -c tmux-2.8.tar.gz.sha \
+    && tar -xf tmux-2.8.tar.gz \
+    && rm tmux-2.8.tar.gz tmux-2.8.tar.gz.sha
 RUN curl -o zsh-5.5.1.tar.gz -sSL "https://github.com/zsh-users/zsh/archive/zsh-5.5.1.tar.gz" \
     && sha256sum -c zsh-5.5.1.tar.gz.sha \
     && tar -xf zsh-5.5.1.tar.gz \

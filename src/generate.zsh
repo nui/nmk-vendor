@@ -20,7 +20,7 @@ fix_centos_dependency_conflict() {
 build_context() {
 local ag_version=2.2.0
 local libevent_version=2.1.8
-local tmux_tag=2.7
+local tmux_tag=2.8
 local zsh_version=5.5.1
 local htop_version=2.2.0
 
