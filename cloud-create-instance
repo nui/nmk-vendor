@@ -4,6 +4,8 @@ set -ex
 PROJECT=nuimk-io
 ZONE=us-central1-a
 
+export CLOUDSDK_ACTIVE_CONFIG_NAME=personal
+
 gcloud compute instances create nmkpkg \
     --boot-disk-size 20GB \
     --boot-disk-type pd-ssd \
