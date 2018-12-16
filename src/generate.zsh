@@ -89,7 +89,7 @@ for v in $ubuntu_versions; do
 done
 
 # don't add centos 5
-centos_versions=(6.6 6.7 6.8 6.9 7.0.1406 7.1.1503 7.2.1511 7.3.1611 7.4.1708 7.5.1804)
+centos_versions=(6.6 6.7 6.8 6.9 7.0.1406 7.1.1503 7.2.1511 7.3.1611 7.4.1708 7.5.1804 7.6.1810)
 for v in $centos_versions; do
     generate_context_dir centos $v
 done
