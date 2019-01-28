@@ -1,0 +1,22 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - build
+    - -t
+    - builder
+    - ubuntu-18.04
+  timeout: 600s
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - run
+    - -v
+    - /workspace:/workspace
+    - builder
+    - /root/.nmk/local
+  timeout: 600s
+artifacts:
+  objects:
+    location: "gs://nmk.nuimk.com"
+    paths:
+      - local.tar.gz
+
