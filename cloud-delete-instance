@@ -1,6 +1,0 @@
-#!/bin/sh
-set -ex
-
-export CLOUDSDK_ACTIVE_CONFIG_NAME=personal
-
-gcloud compute instances delete nmkpkg --project nuimk-io
