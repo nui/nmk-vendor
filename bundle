@@ -45,7 +45,7 @@ DOT_LOCAL=$1
 NAME=${DOT_LOCAL:h:h:t}
 shift
 
-CANT_COMPILE_HTOP=(centos-6.6 centos-6.7 centos-6.8 centos-6.9)
+CANT_COMPILE_HTOP=(centos-6.6 centos-6.7 centos-6.8 centos-6.9 centos-6.10)
 
 if (( $_CLOUD )); then
     gcloud auth configure-docker
