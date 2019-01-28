@@ -111,3 +111,7 @@ fi
 
 cd $PREFIX
 tar caf /local.tar.gz --exclude='*.la' --exclude='*.a' *
+if [[ -d /workspace ]]; then
+    cp /local.tar.gz /workspace
+fi
+
