@@ -15,10 +15,10 @@ EOU
 getopt_options=(
     cloud
     help
-    name
+    name:
 )
 
-if ! getopt_tmp=$(POSIXLY_CORRECT=true getopt -q -o chn --long ${(j:,:)getopt_options} -- "$@"); then
+if ! getopt_tmp=$(POSIXLY_CORRECT=true getopt -q -o chn: --long ${(j:,:)getopt_options} -- "$@"); then
     # exit if error
     usage
     exit 1
