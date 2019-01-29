@@ -105,7 +105,7 @@ if [[ $_ZSH == true ]]; then
         --with-tcsetpgrp \
         --with-term-lib="ncursesw tinfo"
     CPPFLAGS="-I$PREFIX/include" LDFLAGS="-L$PREFIX/lib -L$PREFIX/include" make
-    make STRIPFLAGS="-s" install.bin install.modules install.fns install.runhelp
+    make STRIPFLAGS="-s" install.bin install.modules install.fns
     cd ..
 fi
 

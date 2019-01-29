@@ -18,11 +18,24 @@ fix_centos_dependency_conflict() {
 }
 
 build_context() {
+local distro=$1
+local version=$2
+
 local ag_version=2.2.0
 local libevent_version=2.1.8
 local tmux_tag=2.8
-local zsh_version=5.5.1
 local htop_version=2.2.0
+local zsh_version
+
+local tag=$distro-$version
+local -a old_autoconf
+old_autoconf=(centos-6.6 centos-6.7 centos-6.8 centos-6.9 centos-6.10 ubuntu-12.04)
+if [[ ${old_autoconf[(r)$tag]} == $tag ]]; then
+    zsh_version=5.5.1
+else
+    zsh_version=5.7
+fi
+
 
 local ag_archive=the_silver_searcher-${ag_version}.tar.gz
 local libevent_archive=libevent-${libevent_version}-stable.tar.gz
@@ -75,7 +88,7 @@ generate_context_dir() {
     print "ENV _TAG=${distro}-${version}\n" >> $dockerfile
     [[ $distro == centos ]] && fix_centos_dependency_conflict $version >> $dockerfile
     <Dockerfile.$distro >> $dockerfile
-    build_context >> $dockerfile
+    build_context $distro $version >> $dockerfile
     cp entrypoint *.sha $target
 }
 debian_versions=(7 8 9)
