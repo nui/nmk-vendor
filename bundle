@@ -6,19 +6,17 @@ cat <<- EOU
 Usage: $_SCRIPT_NAME [OPTIONS]
 
 optional arguments:
-  -c, --cloud           cloud build
   -h, --help            print this help message
   -n, --name            custom tar name
 EOU
 }
 
 getopt_options=(
-    cloud
     help
     name:
 )
 
-if ! getopt_tmp=$(POSIXLY_CORRECT=true getopt -q -o chn: --long ${(j:,:)getopt_options} -- "$@"); then
+if ! getopt_tmp=$(POSIXLY_CORRECT=true getopt -q -o hn: --long ${(j:,:)getopt_options} -- "$@"); then
     # exit if error
     usage
     exit 1
@@ -29,18 +27,15 @@ unset getopt_options
 unset getopt_tmp
 
 # Variables
-integer _CLOUD=0
 local _NAME
 
 while true; do
     case $1 in
-        -c | --cloud ) _CLOUD=1; shift ;;
         -h | --help ) usage; exit 0 ;;
         -n | --name ) _NAME=$2; shift 2;;
         -- ) shift; break ;;
     esac
 done
-readonly _CLOUD
 # }}}
 
 set -ex
@@ -48,29 +43,15 @@ set -ex
 DOT_LOCAL=$1
 shift
 
-CANT_COMPILE_HTOP=(centos-6.6 centos-6.7 centos-6.8 centos-6.9 centos-6.10)
-
-if (( $_CLOUD )); then
-    gcloud auth configure-docker
-fi
-
 for tag in $@; do
-    if (( $_CLOUD )); then
-        IMAGE=gcr.io/nuimk-io/nmkpkg:$tag
-    else
-        IMAGE=nuimk/nmkpkg:$tag
-    fi
+    IMAGE=nuimk/nmkpkg:$tag
     if [[ -n $_NAME ]]; then
         TAR=$_NAME.tar
     else
         NAME=${DOT_LOCAL:h:h:t}
         TAR=nmkpkg-$tag-$NAME.tar
     fi
-    if [[ ${CANT_COMPILE_HTOP[(r)$tag]} == $tag ]]; then
-        OPTIONS=(--no-htop)
-    else
-        OPTIONS=
-    fi
+    OPTIONS=
     CID=$(docker run -d $IMAGE $OPTIONS $DOT_LOCAL)
     docker wait $CID
     docker cp $CID:/local.tar $TAR
