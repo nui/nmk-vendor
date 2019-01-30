@@ -12,7 +12,7 @@ steps:
     - -v
     - /workspace:/workspace
     - builder
-    - /root/.nmk/local
+    - $_LOCAL_PATH
     - --name
     - $_TAR_NAME
   timeout: 600s
@@ -20,7 +20,7 @@ artifacts:
   objects:
     location: "gs://nmk.nuimk.com/nmkpkg"
     paths:
-      - ${TAR_NAME}.tar.gz
+      - ${_TAR_NAME}.tar.gz
 substitutions:
     _LOCAL_PATH: /root/.nmk/local # default value
     _DOCKER_TAG: centos-7.5.1804 # default value
