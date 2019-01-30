@@ -12,9 +12,9 @@ steps:
     - -v
     - /workspace:/workspace
     - builder
-    - $_LOCAL_PATH
     - --name
     - $_TAR_NAME
+    - $_LOCAL_PATH
   timeout: 600s
 artifacts:
   objects:
