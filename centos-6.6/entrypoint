@@ -11,6 +11,7 @@ Options
     --no-htop                 Dont't build htop
     --no-tmux                 Dont't build tmux
     --no-zsh                  Dont't build zsh
+    -n, --name                Custom archive name
     -h, --help                print this help message
 EOU
 }
@@ -21,9 +22,10 @@ _OPTIONS=(
     no-htop
     no-tmux
     no-zsh
+    name:
 )
 
-if ! _TEMP=$(POSIXLY_CORRECT=true getopt -q -o h --long ${(j:,:)_OPTIONS} -- "$@"); then
+if ! _TEMP=$(POSIXLY_CORRECT=true getopt -q -o hn: --long ${(j:,:)_OPTIONS} -- "$@"); then
     # exit if error
     usage
     exit 1
@@ -36,6 +38,7 @@ _AG=true
 _HTOP=true
 _TMUX=true
 _ZSH=true
+_NAME=
 
 while true; do
     case $1 in
@@ -43,6 +46,7 @@ while true; do
         --no-htop ) _HTOP=false; shift ;;
         --no-tmux ) _TMUX=false; shift ;;
         --no-zsh ) _ZSH=false; shift ;;
+        -n | --name ) _NAME=$2; shift 2;;
         -h | --help ) usage; exit 0 ;;
         -- ) shift; break ;;
     esac
@@ -112,6 +116,11 @@ fi
 cd $PREFIX
 tar caf /local.tar --exclude='*.la' --exclude='*.a' *
 if [[ -d /workspace ]]; then
-    cp /local.tar /workspace
+    if [[ -n $_NAME ]]; then
+        cp /local.tar /workspace/$_NAME.tar
+        gzip /workspace/$_NAME.tar
+    else
+        cp /local.tar /workspace
+    fi
 fi
 

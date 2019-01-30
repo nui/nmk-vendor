@@ -4,7 +4,7 @@ steps:
     - build
     - -t
     - builder
-    - ubuntu-18.04
+    - $_DOCKER_TAG
   timeout: 600s
 - name: 'gcr.io/cloud-builders/docker'
   args:
@@ -13,10 +13,16 @@ steps:
     - /workspace:/workspace
     - builder
     - /root/.nmk/local
+    - --name
+    - $_TAR_NAME
   timeout: 600s
 artifacts:
   objects:
-    location: "gs://nmk.nuimk.com"
+    location: "gs://nmk.nuimk.com/nmkpkg"
     paths:
-      - local.tar.gz
+      - ${TAR_NAME}.tar.gz
+substitutions:
+    _LOCAL_PATH: /root/.nmk/local # default value
+    _DOCKER_TAG: centos-7.5.1804 # default value
+    _TAR_NAME: nmkpkg
 
