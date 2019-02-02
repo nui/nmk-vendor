@@ -1,0 +1,126 @@
+#!/bin/zsh
+set -e
+
+# Parse options {{{
+usage() {
+cat <<- EOU
+Usage: [OPTIONS] PREFIX
+
+Options
+    --no-ag                   Dont't build silversearcher
+    --no-htop                 Dont't build htop
+    --no-tmux                 Dont't build tmux
+    --no-zsh                  Dont't build zsh
+    -n, --name                Custom archive name
+    -h, --help                print this help message
+EOU
+}
+
+_OPTIONS=(
+    help
+    no-ag
+    no-htop
+    no-tmux
+    no-zsh
+    name:
+)
+
+if ! _TEMP=$(POSIXLY_CORRECT=true getopt -q -o hn: --long ${(j:,:)_OPTIONS} -- "$@"); then
+    # exit if error
+    usage
+    exit 1
+fi
+
+eval set -- $_TEMP
+
+# Variables
+_AG=true
+_HTOP=true
+_TMUX=true
+_ZSH=true
+_NAME=
+
+while true; do
+    case $1 in
+        --no-ag ) _AG=false; shift ;;
+        --no-htop ) _HTOP=false; shift ;;
+        --no-tmux ) _TMUX=false; shift ;;
+        --no-zsh ) _ZSH=false; shift ;;
+        -n | --name ) _NAME=$2; shift 2;;
+        -h | --help ) usage; exit 0 ;;
+        -- ) shift; break ;;
+    esac
+done
+# }}}
+
+
+if [[ ! -n $1 ]]; then
+    usage
+    exit 1
+fi
+
+PREFIX=$1
+cd /build
+
+if [[ $_AG == true ]]; then
+    cd $AG_BUILD_DIR
+    ./configure --prefix=$PREFIX --build=x86_64-pc-linux-gnu
+    make
+    make install-strip
+    cd ..
+fi
+
+if [[ $_HTOP == true ]]; then
+    cd $HTOP_BUILD_DIR
+    ./autogen.sh
+    ./configure --prefix=$PREFIX --build=x86_64-pc-linux-gnu
+    make
+    make install-strip
+    cd ..
+fi
+
+if [[ $_TMUX == true ]]; then
+    cd $LIBEVENT_BUILD_DIR
+    ./configure --prefix=$PREFIX --build=x86_64-pc-linux-gnu
+    make
+    make install
+    cd ..
+
+    cd $TMUX_BUILD_DIR
+      CFLAGS="-I$PREFIX/include" LDFLAGS="-L$PREFIX/lib -L$PREFIX/include" ./configure --prefix=$PREFIX --build=x86_64-pc-linux-gnu --disable-silent-rules --disable-maintainer-mode --disable-dependency-tracking
+    CPPFLAGS="-I$PREFIX/include" LDFLAGS="-L$PREFIX/lib -L$PREFIX/include" make
+    make install-strip
+    cd ..
+fi
+
+if [[ $_ZSH == true ]]; then
+    cd $ZSH_BUILD_DIR
+    ./Util/preconfig
+
+      CFLAGS="-I$PREFIX/include" LDFLAGS="-L$PREFIX/lib -L$PREFIX/include" ./configure --prefix=$PREFIX --build=x86_64-pc-linux-gnu --disable-silent-rules --disable-maintainer-mode --disable-dependency-tracking \
+        --disable-ansi2knr \
+        --enable-additional-fpath=/usr/share/zsh/vendor-completions \
+        --enable-cap \
+        --enable-function-subdirs \
+        --enable-maildir-support \
+        --enable-max-jobtable-size=256 \
+        --enable-pcre \
+        --enable-readnullcmd=pager \
+        --with-tcsetpgrp \
+        --with-term-lib="ncursesw tinfo"
+    CPPFLAGS="-I$PREFIX/include" LDFLAGS="-L$PREFIX/lib -L$PREFIX/include" make
+    make STRIPFLAGS="-s" install.bin install.modules install.fns
+    cd ..
+fi
+
+cd $PREFIX
+tar caf /local.tar --exclude='*.la' --exclude='*.a' *
+if [[ -d /workspace ]]; then
+    if [[ -n $_NAME ]]; then
+        cp /local.tar /workspace/$_NAME.tar
+        gzip /workspace/$_NAME.tar
+    else
+        cp /local.tar /workspace
+    fi
+fi
+

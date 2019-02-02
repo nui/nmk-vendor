@@ -25,7 +25,17 @@ local ag_version=2.2.0
 local libevent_version=2.1.8
 local tmux_tag=2.8
 local htop_version=2.2.0
-local zsh_version=5.7
+local zsh_version
+
+local tag=$distro-$version
+local -a old_autoconf
+old_autoconf=(centos-6.6 centos-6.7 centos-6.8 centos-6.9 centos-6.10)
+if [[ ${old_autoconf[(r)$tag]} == $tag ]]; then
+    zsh_version=5.5.1
+else
+    zsh_version=5.7
+fi
+
 
 local ag_archive=the_silver_searcher-${ag_version}.tar.gz
 local libevent_archive=libevent-${libevent_version}-stable.tar.gz
@@ -91,8 +101,8 @@ for v in $ubuntu_versions; do
     generate_context_dir ubuntu $v
 done
 
-# don't add centos 5 & 6
-centos_versions=(7.0.1406 7.1.1503 7.2.1511 7.3.1611 7.4.1708 7.5.1804 7.6.1810)
+# don't add centos 5
+centos_versions=(6.6 6.7 6.8 6.9 6.10 7.0.1406 7.1.1503 7.2.1511 7.3.1611 7.4.1708 7.5.1804 7.6.1810)
 for v in $centos_versions; do
     generate_context_dir centos $v
 done

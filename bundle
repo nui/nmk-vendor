@@ -43,6 +43,8 @@ set -ex
 DOT_LOCAL=$1
 shift
 
+CANT_COMPILE_HTOP=(centos-6.6 centos-6.7 centos-6.8 centos-6.9 centos-6.10)
+
 for tag in $@; do
     IMAGE=nuimk/nmkpkg:$tag
     if [[ -n $_NAME ]]; then
@@ -51,7 +53,11 @@ for tag in $@; do
         NAME=${DOT_LOCAL:h:h:t}
         TAR=nmkpkg-$tag-$NAME.tar
     fi
-    OPTIONS=
+    if [[ ${CANT_COMPILE_HTOP[(r)$tag]} == $tag ]]; then
+        OPTIONS=(--no-htop)
+    else
+        OPTIONS=
+    fi
     CID=$(docker run -d $IMAGE $OPTIONS $DOT_LOCAL)
     docker wait $CID
     docker cp $CID:/local.tar $TAR
