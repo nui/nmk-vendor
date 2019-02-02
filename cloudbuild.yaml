@@ -12,6 +12,7 @@ steps:
     - -v
     - /workspace:/workspace
     - builder
+    # - --no-htop
     - --name
     - $_TAR_NAME
     - $_LOCAL_PATH
