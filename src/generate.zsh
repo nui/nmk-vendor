@@ -33,7 +33,7 @@ old_autoconf=(centos-6.6 centos-6.7 centos-6.8 centos-6.9 centos-6.10)
 if [[ ${old_autoconf[(r)$tag]} == $tag ]]; then
     zsh_version=5.5.1
 else
-    zsh_version=5.7
+    zsh_version=5.7.1
 fi
 
 
