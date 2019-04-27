@@ -28,5 +28,5 @@ artifacts:
 substitutions:
     _LOCAL_PATH: /home/nui/.nmk/local # default value
     _DOCKER_TAG: ubuntu-18.04 # default value
-    _TAR_NAME:   ubuntu-18.04--zsh-5.7.1-tmux-2.8--nui
+    _TAR_NAME:   ubuntu-18.04--zsh-5.7.1-tmux-2.9--nui
 
