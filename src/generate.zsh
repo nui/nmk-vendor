@@ -23,7 +23,7 @@ local version=$2
 
 local ag_version=2.2.0
 local libevent_version=2.1.11
-local tmux_tag=2.9a-3
+local tmux_tag=3.0-1
 local htop_version=2.2.0
 local zsh_version
 
