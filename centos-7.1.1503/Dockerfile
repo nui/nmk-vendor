@@ -1,5 +1,5 @@
 FROM centos:7.1.1503
-ENV _TAG=centos-7.1.1503
+ENV DOCKER_TAG=centos-7.1.1503
 
 # Workaround for centos 7.0, 7.1
 RUN yum -y remove systemd

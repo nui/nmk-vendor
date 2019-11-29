@@ -1,5 +1,5 @@
 FROM debian:9
-ENV _TAG=debian-9
+ENV DOCKER_TAG=debian-9
 
 ARG USE_APT_CACHER="false"
 ARG USE_APT_MIRROR="false"

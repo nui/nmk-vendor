@@ -25,17 +25,15 @@ local ag_version=2.2.0
 local libevent_version=2.1.11
 local htop_version=2.2.0
 
-local tmux_tag
+local tmux_tag=3.0-1
 local zsh_version
 
 local tag=$distro-$version
 local -a old_autoconf
 old_autoconf=(centos-6.6 centos-6.7 centos-6.8 centos-6.9 centos-6.10)
 if [[ ${old_autoconf[(r)$tag]} == $tag ]]; then
-    tmux_tag=2.9a-3
     zsh_version=5.5.1
 else
-    tmux_tag=3.0-1
     zsh_version=5.7.1
 fi
 
@@ -88,7 +86,7 @@ generate_context_dir() {
     rm -rf $target
     mkdir $target
     print "FROM $distro:$version" > $dockerfile
-    print "ENV _TAG=${distro}-${version}\n" >> $dockerfile
+    print "ENV DOCKER_TAG=${distro}-${version}\n" >> $dockerfile
     [[ $distro == centos ]] && fix_centos_dependency_conflict $version >> $dockerfile
     <Dockerfile.$distro >> $dockerfile
     build_context $distro $version >> $dockerfile

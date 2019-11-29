@@ -1,5 +1,5 @@
 FROM centos:7.3.1611
-ENV _TAG=centos-7.3.1611
+ENV DOCKER_TAG=centos-7.3.1611
 
 RUN true \
     && yum -y update \

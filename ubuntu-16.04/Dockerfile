@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-ENV _TAG=ubuntu-16.04
+ENV DOCKER_TAG=ubuntu-16.04
 
 ARG USE_APT_CACHER="false"
 ARG USE_APT_MIRROR="false"
