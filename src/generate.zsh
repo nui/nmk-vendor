@@ -25,7 +25,7 @@ local ag_version=2.2.0
 local libevent_version=2.1.11
 local htop_version=2.2.0
 
-local tmux_tag=3.0-1
+local tmux_tag=3.0a-1
 local zsh_version
 
 local tag=$distro-$version
