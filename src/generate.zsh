@@ -34,7 +34,7 @@ old_autoconf=(centos-6.6 centos-6.7 centos-6.8 centos-6.9 centos-6.10)
 if [[ ${old_autoconf[(r)$tag]} == $tag ]]; then
     zsh_version=5.5.1
 else
-    zsh_version=5.7.1
+    zsh_version=5.8
 fi
 
 
@@ -92,7 +92,7 @@ generate_context_dir() {
     build_context $distro $version >> $dockerfile
     cp entrypoint *.sha $target
 }
-debian_versions=(7 8 9)
+debian_versions=(8 9)
 for v in $debian_versions; do
     generate_context_dir debian $v
 done
