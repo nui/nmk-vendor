@@ -25,7 +25,6 @@ ADD *.sha /build/
 WORKDIR /build
 ENV LIBEVENT_BUILD_DIR=libevent-2.1.11-stable \
     TMUX_BUILD_DIR=tmux-3.1b-1 \
-    AG_BUILD_DIR=the_silver_searcher-2.2.0 \
     ZSH_BUILD_DIR=zsh-zsh-5.8 \
     HTOP_BUILD_DIR=htop-2.2.0
 
@@ -41,10 +40,6 @@ RUN curl -o zsh-5.8.tar.gz -sSL "https://github.com/zsh-users/zsh/archive/zsh-5.
     && sha256sum -c zsh-5.8.tar.gz.sha \
     && tar -xf zsh-5.8.tar.gz \
     && rm zsh-5.8.tar.gz zsh-5.8.tar.gz.sha
-RUN curl -o the_silver_searcher-2.2.0.tar.gz -sSL "http://geoff.greer.fm/ag/releases/the_silver_searcher-2.2.0.tar.gz" \
-    && sha256sum -c the_silver_searcher-2.2.0.tar.gz.sha \
-    && tar -xf the_silver_searcher-2.2.0.tar.gz \
-    && rm the_silver_searcher-2.2.0.tar.gz the_silver_searcher-2.2.0.tar.gz.sha
 RUN curl -o htop-2.2.0.tar.gz -sSL "https://github.com/hishamhm/htop/archive/2.2.0.tar.gz" \
     && sha256sum -c htop-2.2.0.tar.gz.sha \
     && tar -xf htop-2.2.0.tar.gz \

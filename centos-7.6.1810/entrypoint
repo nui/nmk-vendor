@@ -7,7 +7,6 @@ cat <<- EOU
 Usage: [OPTIONS] PREFIX
 
 Options
-    --no-ag                   Dont't build silversearcher
     --no-htop                 Dont't build htop
     --no-tmux                 Dont't build tmux
     --no-zsh                  Dont't build zsh
@@ -18,7 +17,6 @@ EOU
 
 _OPTIONS=(
     help
-    no-ag
     no-htop
     no-tmux
     no-zsh
@@ -34,7 +32,6 @@ fi
 eval set -- $_TEMP
 
 # Variables
-_AG=true
 _HTOP=true
 _TMUX=true
 _ZSH=true
@@ -42,7 +39,6 @@ _NAME=
 
 while true; do
     case $1 in
-        --no-ag ) _AG=false; shift ;;
         --no-htop ) _HTOP=false; shift ;;
         --no-tmux ) _TMUX=false; shift ;;
         --no-zsh ) _ZSH=false; shift ;;
@@ -67,14 +63,6 @@ PREFIX=$1
 cd /build
 
 set -x
-
-if [[ $_AG == true ]]; then
-    cd $AG_BUILD_DIR
-    ./configure --prefix=$PREFIX --build=x86_64-pc-linux-gnu
-    make
-    make install-strip
-    cd ..
-fi
 
 if [[ $_HTOP == true ]]; then
     cd $HTOP_BUILD_DIR
