@@ -27,7 +27,7 @@ steps:
     - 'Cache-Control:no-cache,max-age=0,no-transform'
     - cp
     - ${_TAR_NAME}.tar.xz
-    - gs://nmk.nuimk.com/nmkpkg
+    - gs://nmk.nuimk.com/nmkpkg/${_TAR_NAME}.tar.xz
 substitutions:
     _DOCKER_TAG: ubuntu-18.04 # default value
     _TAR_NAME:   ubuntu-18.04_tmux-3.1b
