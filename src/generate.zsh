@@ -101,3 +101,8 @@ for v in $centos_versions; do
     generate_context_dir centos $v
 done
 
+amazonlinux_versions=(1 2)
+for v in $amazonlinux_versions; do
+    generate_context_dir amazonlinux $v
+done
+

@@ -2,6 +2,8 @@
 # gcloud builds submit --async --substitutions=_DOCKER_TAG=ubuntu-18.04,_TAR_NAME=tmux-3.1b--ubuntu-18.04
 
 TAGS=(
+    amazonlinux-1
+    amazonlinux-2
     centos-7.0.1406
     centos-7.6.1810
     centos-7.7.1908
