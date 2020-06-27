@@ -17,7 +17,7 @@ steps:
     # - --no-zsh
     - --name
     - $_TAR_NAME
-    - /nmk-local
+    - /NmK-LoCaL_MaRkEr
   timeout: 600s
 - name: 'gcr.io/cloud-builders/gsutil'
   args:
@@ -30,5 +30,5 @@ steps:
     - gs://nmk.nuimk.com/nmkpkg
 substitutions:
     _DOCKER_TAG: ubuntu-18.04 # default value
-    _TAR_NAME:   tmux-3.1b--ubuntu-18.04
+    _TAR_NAME:   ubuntu-18.04_tmux-3.1b
 
