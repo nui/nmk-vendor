@@ -4,6 +4,7 @@
 TAGS=(
     amazonlinux-1
     amazonlinux-2
+    centos-6.10
     centos-7.0.1406
     centos-7.6.1810
     centos-7.7.1908
