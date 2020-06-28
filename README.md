@@ -1,3 +1,3 @@
-# nmkpkg
+# nmk-vender
 
-Compile tmux and zsh in docker container
+Vendoring tmux and zsh for nmk.
