@@ -47,10 +47,6 @@ while true; do
         -- ) shift; break ;;
     esac
 done
-
-if [[ $DOCKER_TAG == centos-6* ]]; then
-    _HTOP=false
-fi
 # }}}
 
 

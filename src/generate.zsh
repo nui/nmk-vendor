@@ -25,23 +25,32 @@ local libevent_version=2.1.11
 local htop_version=2.2.0
 
 local tmux_tag=3.1b-1
-local zsh_version
+local zsh_version=5.8
 
 local tag=$distro-$version
 local -a old_autoconf
 old_autoconf=(centos-6.6 centos-6.7 centos-6.8 centos-6.9 centos-6.10)
-if [[ ${old_autoconf[(r)$tag]} == $tag ]]; then
-    zsh_version=5.5.1
-else
-    zsh_version=5.8
-fi
-
 
 local libevent_archive=libevent-${libevent_version}-stable.tar.gz
 local tmux_archive=tmux-${tmux_tag}.tar.gz
 local zsh_archive=zsh-${zsh_version}.tar.gz
 local htop_archive=htop-${htop_version}.tar.gz
+
+if [[ ${old_autoconf[(r)$tag]} == $tag ]]; then
+cat << 'EOF'
+RUN STAGING_DIR=$(mktemp -d) OUT_FILE=autoconf-2.69.tar.xz \
+    && cd $STAGING_DIR \
+    && curl -sSf -o $OUT_FILE http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz \
+    && echo '64ebcec9f8ac5b2487125a86a7760d2591ac9e1d3dbd59489633f9de62a57684 *autoconf-2.69.tar.xz' > $OUT_FILE.sha \
+    && sha256sum -c $OUT_FILE.sha \
+    && tar -xf $OUT_FILE \
+    && cd autoconf-2.69 && ./configure && make install \
+    && rm -rf $STAGING_DIR
+
+EOF
+fi
 cat << EOF
+
 ADD *.sha /build/
 WORKDIR /build
 ENV LIBEVENT_BUILD_DIR=libevent-${libevent_version}-stable \\
