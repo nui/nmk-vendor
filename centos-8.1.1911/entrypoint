@@ -108,6 +108,7 @@ if [[ $_ZSH == true ]]; then
     for module (zpty regex) {
         sed -i -E "s/(.*)${module}.mdd link=no(.*)/\1${module}.mdd link=static\2/" config.modules
     }
+    cat config.modules
     CPPFLAGS="-I$PREFIX/include" LDFLAGS="-L$PREFIX/lib -L$PREFIX/include" make
     make STRIPFLAGS="-s" install.bin install.fns
     cd ..
