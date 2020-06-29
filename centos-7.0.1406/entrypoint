@@ -77,8 +77,8 @@ if [[ $_TMUX == true ]]; then
     cd ..
 
     cd $TMUX_BUILD_DIR
-      CFLAGS="-I$PREFIX/include" LDFLAGS="-L$PREFIX/lib -L$PREFIX/include" ./configure --prefix=$PREFIX --build=x86_64-pc-linux-gnu --disable-silent-rules --disable-maintainer-mode --disable-dependency-tracking
-    CPPFLAGS="-I$PREFIX/include" LDFLAGS="-L$PREFIX/lib -L$PREFIX/include" make
+    PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig ./configure --prefix=$PREFIX --build=x86_64-pc-linux-gnu --disable-dependency-tracking
+    make
     make install-strip
     cd ..
 fi
@@ -89,13 +89,11 @@ if [[ $_ZSH == true ]]; then
 
     # FYI: If you compile for local system
     # remove --disable-dynamic and remove statically link
-    CFLAGS="-I$PREFIX/include" LDFLAGS="-L$PREFIX/lib -L$PREFIX/include" ./configure --prefix=$PREFIX \
+    PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig ./configure --prefix=$PREFIX \
         --build=x86_64-pc-linux-gnu \
         --disable-ansi2knr \
         --disable-dependency-tracking \
         --disable-dynamic \
-        --disable-maintainer-mode \
-        --disable-silent-rules \
         --enable-cap \
         --enable-function-subdirs \
         --enable-maildir-support \
@@ -104,12 +102,39 @@ if [[ $_ZSH == true ]]; then
         --enable-readnullcmd=pager \
         --with-tcsetpgrp \
         --with-term-lib="ncursesw tinfo"
+
     # statically link additional modules
-    for module (zpty regex) {
+    nmk_zsh_static_modules=(
+        # required
+        regex
+        zpty
+        # add to match link=dynamic
+        attr
+        cap
+        clone
+        curses
+        deltochar
+        example
+        files
+        mapfile
+        mathfunc
+        nearcolor
+        newuser
+        param_private
+        pcre
+        socket
+        stat
+        system
+        tcp
+        zftp
+        zprof
+        zselect
+    )
+    for module ($nmk_zsh_static_modules) {
         sed -i -E "s/(.*)${module}.mdd link=no(.*)/\1${module}.mdd link=static\2/" config.modules
     }
     cat config.modules
-    CPPFLAGS="-I$PREFIX/include" LDFLAGS="-L$PREFIX/lib -L$PREFIX/include" make
+    make
     make STRIPFLAGS="-s" install.bin install.fns
     cd ..
 fi
