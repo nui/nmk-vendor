@@ -11,6 +11,7 @@ TAGS=(
     centos-7.8.2003
     centos-8.1.1911
     centos-8.2.2004
+    ubuntu-14.04
     ubuntu-16.04
     ubuntu-18.04
     ubuntu-20.04
