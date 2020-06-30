@@ -63,7 +63,7 @@ set -x
 if [[ $_HTOP == true ]]; then
     cd $HTOP_BUILD_DIR
     ./autogen.sh
-    ./configure --prefix=$PREFIX --build=x86_64-pc-linux-gnu
+    ./configure --prefix=$PREFIX
     make
     make install-strip
     cd ..
@@ -71,13 +71,13 @@ fi
 
 if [[ $_TMUX == true ]]; then
     cd $LIBEVENT_BUILD_DIR
-    ./configure --prefix=$PREFIX --enable-shared --build=x86_64-pc-linux-gnu
+    ./configure --prefix=$PREFIX --enable-shared
     make
     make install
     cd ..
 
     cd $TMUX_BUILD_DIR
-    PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig ./configure --prefix=$PREFIX --build=x86_64-pc-linux-gnu --disable-dependency-tracking
+    PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig ./configure --prefix=$PREFIX --disable-dependency-tracking
     make
     make install-strip
     cd ..
@@ -90,7 +90,6 @@ if [[ $_ZSH == true ]]; then
     # FYI: If you compile for local system
     # remove --disable-dynamic and remove statically link
     PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig ./configure --prefix=$PREFIX \
-        --build=x86_64-pc-linux-gnu \
         --disable-ansi2knr \
         --disable-dependency-tracking \
         --disable-dynamic \
