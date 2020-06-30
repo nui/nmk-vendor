@@ -94,7 +94,7 @@ generate_context_dir() {
     build_context $distro $version >> $dockerfile
     cp entrypoint *.sha $target
 }
-debian_versions=(8 9)
+debian_versions=(8 9 10)
 for v in $debian_versions; do
     generate_context_dir debian $v
 done

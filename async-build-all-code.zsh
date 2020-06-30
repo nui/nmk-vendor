@@ -5,12 +5,15 @@ TAGS=(
     amazonlinux-1
     amazonlinux-2
     centos-6.10
-    # centos-7.0.1406
+    centos-7.0.1406
     centos-7.6.1810
     centos-7.7.1908
     centos-7.8.2003
     centos-8.1.1911
     centos-8.2.2004
+    debian-8
+    debian-9
+    debian-10
     ubuntu-14.04
     ubuntu-16.04
     ubuntu-18.04
