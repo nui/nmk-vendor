@@ -22,9 +22,9 @@ local distro=$1
 local version=$2
 
 local libevent_version=2.1.11
-local htop_version=2.2.0
+local htop_version=3.0.2
 
-local tmux_tag=3.1b-1
+local tmux_tag=3.1c-1
 local zsh_version=5.8
 
 local tag=$distro-$version
@@ -70,7 +70,7 @@ RUN curl -o ${zsh_archive} -sSL "https://github.com/zsh-users/zsh/archive/${zsh_
     && sha256sum -c ${zsh_archive}.sha \\
     && tar -xf ${zsh_archive} \\
     && rm ${zsh_archive} ${zsh_archive}.sha
-RUN curl -o ${htop_archive} -sSL "https://github.com/hishamhm/htop/archive/${htop_version}.tar.gz" \\
+RUN curl -o ${htop_archive} -sSL "https://github.com/htop-dev/htop/archive/${htop_version}.tar.gz" \\
     && sha256sum -c ${htop_archive}.sha \\
     && tar -xf ${htop_archive} \\
     && rm ${htop_archive} ${htop_archive}.sha

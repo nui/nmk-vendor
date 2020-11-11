@@ -21,5 +21,5 @@ TAGS=(
 )
 
 for tag in $TAGS; do
-    gcloud builds submit --async --substitutions="_DOCKER_TAG=$tag,_TAR_NAME=${tag}_tmux-3.1b"
+    gcloud builds submit --async --substitutions="_DOCKER_TAG=$tag,_TAR_NAME=${tag}_tmux-3.1c"
 done
