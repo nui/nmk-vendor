@@ -9,6 +9,7 @@ TAGS=(
     centos-7.6.1810
     centos-7.7.1908
     centos-7.8.2003
+    centos-7.9.2009
     centos-8.1.1911
     centos-8.2.2004
     debian-8
