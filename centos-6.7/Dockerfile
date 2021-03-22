@@ -24,7 +24,7 @@ WORKDIR /build
 ENV LIBEVENT_BUILD_DIR=libevent-2.1.11-stable \
     TMUX_BUILD_DIR=tmux-3.1c-1 \
     ZSH_BUILD_DIR=zsh-zsh-5.8 \
-    HTOP_BUILD_DIR=htop-3.0.2
+    HTOP_BUILD_DIR=htop-3.0.5
 
 RUN curl -o libevent-2.1.11-stable.tar.gz -sSL "https://github.com/libevent/libevent/releases/download/release-2.1.11-stable/libevent-2.1.11-stable.tar.gz" \
     && sha256sum -c libevent-2.1.11-stable.tar.gz.sha \
@@ -38,10 +38,10 @@ RUN curl -o zsh-5.8.tar.gz -sSL "https://github.com/zsh-users/zsh/archive/zsh-5.
     && sha256sum -c zsh-5.8.tar.gz.sha \
     && tar -xf zsh-5.8.tar.gz \
     && rm zsh-5.8.tar.gz zsh-5.8.tar.gz.sha
-RUN curl -o htop-3.0.2.tar.gz -sSL "https://github.com/htop-dev/htop/archive/3.0.2.tar.gz" \
-    && sha256sum -c htop-3.0.2.tar.gz.sha \
-    && tar -xf htop-3.0.2.tar.gz \
-    && rm htop-3.0.2.tar.gz htop-3.0.2.tar.gz.sha
+RUN curl -o htop-3.0.5.tar.gz -sSL "https://github.com/htop-dev/htop/archive/3.0.5.tar.gz" \
+    && sha256sum -c htop-3.0.5.tar.gz.sha \
+    && tar -xf htop-3.0.5.tar.gz \
+    && rm htop-3.0.5.tar.gz htop-3.0.5.tar.gz.sha
 
 COPY entrypoint /
 ENTRYPOINT ["/entrypoint"]

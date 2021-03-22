@@ -22,7 +22,7 @@ local distro=$1
 local version=$2
 
 local libevent_version=2.1.11
-local htop_version=3.0.2
+local htop_version=3.0.5
 
 local tmux_tag=3.1c-1
 local zsh_version=5.8
