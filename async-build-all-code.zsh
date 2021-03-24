@@ -4,7 +4,6 @@
 TAGS=(
     amazonlinux-1
     amazonlinux-2
-    centos-6.10
     centos-7.0.1406
     centos-7.6.1810
     centos-7.7.1908
@@ -22,5 +21,5 @@ TAGS=(
 )
 
 for tag in $TAGS; do
-    gcloud builds submit --async --substitutions="_DOCKER_TAG=$tag,_TAR_NAME=${tag}_tmux-3.1c"
+    echo gcloud builds submit --async --substitutions="_DOCKER_TAG=$tag,_TAR_NAME=${tag}_tmux-3.1c"
 done

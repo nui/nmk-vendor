@@ -28,27 +28,12 @@ local tmux_tag=3.1c-1
 local zsh_version=5.8
 
 local tag=$distro-$version
-local -a old_autoconf
-old_autoconf=(centos-6.6 centos-6.7 centos-6.8 centos-6.9 centos-6.10)
 
 local libevent_archive=libevent-${libevent_version}-stable.tar.gz
 local tmux_archive=tmux-${tmux_tag}.tar.gz
 local zsh_archive=zsh-${zsh_version}.tar.gz
 local htop_archive=htop-${htop_version}.tar.gz
 
-if [[ ${old_autoconf[(r)$tag]} == $tag ]]; then
-cat << 'EOF'
-RUN STAGING_DIR=$(mktemp -d) OUT_FILE=autoconf-2.69.tar.xz \
-    && cd $STAGING_DIR \
-    && curl -sSf -o $OUT_FILE http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz \
-    && echo '64ebcec9f8ac5b2487125a86a7760d2591ac9e1d3dbd59489633f9de62a57684 *autoconf-2.69.tar.xz' > $OUT_FILE.sha \
-    && sha256sum -c $OUT_FILE.sha \
-    && tar -xf $OUT_FILE \
-    && cd autoconf-2.69 && ./configure && make install \
-    && rm -rf $STAGING_DIR
-
-EOF
-fi
 cat << EOF
 
 ADD *.sha /build/
@@ -104,8 +89,22 @@ for v in $ubuntu_versions; do
     generate_context_dir ubuntu $v
 done
 
-# don't add centos 5
-centos_versions=(6.6 6.7 6.8 6.9 6.10 7.0.1406 7.1.1503 7.2.1511 7.3.1611 7.4.1708 7.5.1804 7.6.1810 7.7.1908 7.8.2003 7.9.2009 8 8.1.1911 8.2.2004)
+# don't add centos 5 and 6
+centos_versions=(
+    7.0.1406
+    7.1.1503
+    7.2.1511
+    7.3.1611
+    7.4.1708
+    7.5.1804
+    7.6.1810
+    7.7.1908
+    7.8.2003
+    7.9.2009
+    8
+    8.1.1911
+    8.2.2004
+)
 for v in $centos_versions; do
     generate_context_dir centos $v
 done
