@@ -26,6 +26,7 @@ echo_build() {
     image=nmk-vendor:$distro-$version
     # echo docker build -t $image $distro-$version
     echo docker run -v $PWD/workspace:/workspace $image --name $distro-${version}_tmux-3.2a /nmk-vendor
+    # echo docker rmi $image
 }
 
 for i in $centos_versions; do
