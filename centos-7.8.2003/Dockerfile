@@ -5,22 +5,22 @@ RUN true \
     && yum -y update \
     && yum -y groupinstall "Development Tools" \
     # for compile silversearcher
-    && yum -y install pcre-devel xz-devel zlib-devel \
+    && yum -y install openssl-devel pcre-devel xz-devel zlib-devel \
     && yum -y install file gcc kernel-devel make ncurses-devel tar sudo zsh \
     && yum clean all
 
 
 ADD *.sha /build/
 WORKDIR /build
-ENV LIBEVENT_BUILD_DIR=libevent-2.1.11-stable \
+ENV LIBEVENT_BUILD_DIR=libevent-2.1.12-stable \
     TMUX_BUILD_DIR=tmux-3.2a-1 \
     ZSH_BUILD_DIR=zsh-zsh-5.8 \
     HTOP_BUILD_DIR=htop-3.0.5
 
-RUN curl -o libevent-2.1.11-stable.tar.gz -sSL "https://github.com/libevent/libevent/releases/download/release-2.1.11-stable/libevent-2.1.11-stable.tar.gz" \
-    && sha256sum -c libevent-2.1.11-stable.tar.gz.sha \
-    && tar -xf libevent-2.1.11-stable.tar.gz \
-    && rm libevent-2.1.11-stable.tar.gz libevent-2.1.11-stable.tar.gz.sha
+RUN curl -o libevent-2.1.12-stable.tar.gz -sSL "https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz" \
+    && sha256sum -c libevent-2.1.12-stable.tar.gz.sha \
+    && tar -xf libevent-2.1.12-stable.tar.gz \
+    && rm libevent-2.1.12-stable.tar.gz libevent-2.1.12-stable.tar.gz.sha
 RUN curl -o tmux-3.2a-1.tar.gz -sSL "https://github.com/nuimk/nmk-tmux/releases/download/3.2a-1/tmux-3.2a-1.tar.gz" \
     && sha256sum -c tmux-3.2a-1.tar.gz.sha \
     && tar -xf tmux-3.2a-1.tar.gz \

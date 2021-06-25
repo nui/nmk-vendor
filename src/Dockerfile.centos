@@ -2,7 +2,7 @@ RUN true \
     && yum -y update \
     && yum -y groupinstall "Development Tools" \
     # for compile silversearcher
-    && yum -y install pcre-devel xz-devel zlib-devel \
+    && yum -y install openssl-devel pcre-devel xz-devel zlib-devel \
     && yum -y install file gcc kernel-devel make ncurses-devel tar sudo zsh \
     && yum clean all
 

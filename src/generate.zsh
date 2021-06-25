@@ -21,7 +21,7 @@ build_context() {
 local distro=$1
 local version=$2
 
-local libevent_version=2.1.11
+local libevent_version=2.1.12
 local htop_version=3.0.5
 
 local tmux_tag=3.2a-1
