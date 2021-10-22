@@ -1,4 +1,5 @@
 #!/bin/zsh
+cd ${0:a:h}
 
 centos_versions=(
     7.0.1406
