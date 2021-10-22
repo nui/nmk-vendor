@@ -143,7 +143,7 @@ tar caf /local.tar --exclude='*.la' --exclude='*.a' *
 if [[ -d /workspace ]]; then
     if [[ -n $_NAME ]]; then
         cp /local.tar /workspace/$_NAME.tar
-        xz -k /workspace/$_NAME.tar
+        xz -kf /workspace/$_NAME.tar
     else
         cp /local.tar /workspace
     fi
