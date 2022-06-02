@@ -25,7 +25,7 @@ local libevent_version=2.1.12
 local htop_version=3.1.2
 
 local tmux_tag=3.2a-1
-local zsh_version=5.8
+local zsh_version=5.9
 
 local tag=$distro-$version
 
@@ -84,7 +84,7 @@ for v in $debian_versions; do
     generate_context_dir debian $v
 done
 
-ubuntu_versions=(14.04 16.04 18.04 20.04)
+ubuntu_versions=(14.04 16.04 18.04 20.04 22.04)
 for v in $ubuntu_versions; do
     generate_context_dir ubuntu $v
 done

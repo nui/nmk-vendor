@@ -19,13 +19,13 @@ centos_versions=(
 
 debian_versions=(8 9 10)
 
-ubuntu_versions=(14.04 16.04 18.04 20.04)
+ubuntu_versions=(14.04 16.04 18.04 20.04 22.04)
 
 echo_build() {
     distro=$1
     version=$2
     image=nmk-vendor:$distro-$version
-    echo docker build -t $image $distro-$version
+    echo docker build --pull -t $image $distro-$version
     echo docker run -v $PWD/workspace:/workspace $image --name $distro-${version}_tmux-3.2a /nmk-vendor
     # echo docker rmi $image
 }
