@@ -24,7 +24,7 @@ local version=$2
 local libevent_version=2.1.12
 local htop_version=3.1.2
 
-local tmux_tag=3.2a-1
+local tmux_tag=3.3-2
 local zsh_version=5.9
 
 local tag=$distro-$version
@@ -101,9 +101,9 @@ centos_versions=(
     7.7.1908
     7.8.2003
     7.9.2009
-    8
-    8.1.1911
-    8.2.2004
+    # 8
+    # 8.1.1911
+    # 8.2.2004
 )
 for v in $centos_versions; do
     generate_context_dir centos $v
