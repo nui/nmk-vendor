@@ -139,6 +139,11 @@ if [[ $_ZSH == true ]]; then
 fi
 
 cd $PREFIX
+/build/vendor-utils
+if [[ -f utils.tar ]]; then
+    tar xf utils.tar
+    rm utils.tar
+fi
 tar caf /local.tar --exclude='*.la' --exclude='*.a' *
 if [[ -d /workspace ]]; then
     if [[ -n $_NAME ]]; then

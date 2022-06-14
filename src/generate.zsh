@@ -60,6 +60,7 @@ RUN curl -o ${htop_archive} -sSL "https://github.com/htop-dev/htop/archive/refs/
     && tar -xf ${htop_archive} \\
     && rm ${htop_archive} ${htop_archive}.sha
 
+COPY vendor-utils /build
 COPY entrypoint /
 ENTRYPOINT ["/entrypoint"]
 EOF
@@ -78,6 +79,7 @@ generate_context_dir() {
     <Dockerfile.$distro >> $dockerfile
     build_context $distro $version >> $dockerfile
     cp entrypoint *.sha $target
+    cp vendor-utils $target
 }
 debian_versions=(8 9 10)
 for v in $debian_versions; do

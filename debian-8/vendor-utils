@@ -1,0 +1,35 @@
+#!/bin/bash
+
+current_dir=$PWD
+
+staging_dir=$(mktemp -d)
+cd $staging_dir
+
+
+rg_name=ripgrep-13.0.0-x86_64-unknown-linux-musl
+rg_archive=$rg_name.tar.gz
+fd_name=fd-v8.4.0-x86_64-unknown-linux-musl
+fd_archive=$fd_name.tar.gz
+
+if [[ $(uname -m) != x86_64 ]]; then
+    echo "Not X86"
+    exit 0
+fi
+
+mkdir bin
+mkdir completion
+
+curl -o $rg_archive -sSL https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/$rg_archive \
+    && tar -xf $rg_archive \
+    && cp $rg_name/rg bin/rg \
+    && cp $rg_name/complete/_rg completion/_rg \
+    && rm -rf $rg_name $rg_archive
+curl -o $fd_archive -sSL https://github.com/sharkdp/fd/releases/download/v8.4.0/$fd_archive \
+    && tar -xf $fd_archive \
+    && cp $fd_name/fd bin/fd \
+    && cp $fd_name/autocomplete/_fd completion/_fd \
+    && rm -rf $fd_name $fd_archive
+tar --owner=0 --group=0 -caf $current_dir/utils.tar bin completion
+cd $current_dir
+rm -rf $staging_dir
+

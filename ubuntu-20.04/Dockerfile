@@ -46,5 +46,6 @@ RUN curl -o htop-3.1.2.tar.gz -sSL "https://github.com/htop-dev/htop/archive/ref
     && tar -xf htop-3.1.2.tar.gz \
     && rm htop-3.1.2.tar.gz htop-3.1.2.tar.gz.sha
 
+COPY vendor-utils /build
 COPY entrypoint /
 ENTRYPOINT ["/entrypoint"]
