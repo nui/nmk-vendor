@@ -69,10 +69,10 @@ EOF
 generate_context_dir() {
     local distro=$1
     local version=$2
-    local target=../$distro-$version
+    local target=../context/$distro-$version
     local dockerfile=$target/Dockerfile
     rm -rf $target
-    mkdir $target
+    mkdir -p $target
     print "FROM $distro:$version" > $dockerfile
     print "ENV DOCKER_TAG=${distro}-${version}\n" >> $dockerfile
     [[ $distro == centos ]] && fix_centos_dependency_conflict $version >> $dockerfile
