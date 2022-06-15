@@ -5,7 +5,6 @@ current_dir=$PWD
 staging_dir=$(mktemp -d)
 cd $staging_dir
 
-
 rg_name=ripgrep-13.0.0-x86_64-unknown-linux-musl
 rg_archive=$rg_name.tar.gz
 fd_name=fd-v8.4.0-x86_64-unknown-linux-musl
@@ -29,7 +28,6 @@ curl -o $fd_archive -sSL https://github.com/sharkdp/fd/releases/download/v8.4.0/
     && cp $fd_name/fd bin/fd \
     && cp $fd_name/autocomplete/_fd completion/_fd \
     && rm -rf $fd_name $fd_archive
-tar --owner=0 --group=0 -caf $current_dir/utils.tar bin completion
+tar --owner=0 --group=0 -caf $current_dir/utils.tar.xz bin completion
 cd $current_dir
 rm -rf $staging_dir
-

@@ -1,0 +1,9 @@
+#!/bin/zsh
+cd ${0:a:h}
+if [[ -n $TMUX ]]; then
+    print "Can't run under tmux, must run from normal terminal"
+    exit 1
+fi
+tmuxinator local
+tmux -L vendor source-file tmux-binding.conf
+tmux -L vendor attach

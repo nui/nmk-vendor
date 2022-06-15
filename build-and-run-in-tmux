@@ -1,0 +1,130 @@
+#!/bin/zsh
+cd ${0:a:h}
+
+centos_versions=(
+    7.0.1406
+    7.1.1503
+    7.2.1511
+    7.3.1611
+    7.4.1708
+    7.5.1804
+    7.6.1810
+    7.7.1908
+    7.8.2003
+    7.9.2009
+    # 8
+    # 8.1.1911
+    # 8.2.2004
+)
+
+debian_versions=(8 9 10)
+
+ubuntu_versions=(14.04 16.04 18.04 20.04 22.04)
+
+amazonlinux_versions=(1 2)
+
+send_tmux_keys() {
+    local distro=$1
+    local pane=$2
+    local cmd=$3
+    shift 3
+    tmux -L vendor send-keys -t vendor:$distro.$pane $@ "$cmd"
+}
+
+echo_build() {
+    local distro=$1
+    local version=$2
+    local image=nmk-vendor:$distro-$version
+    echo docker build --pull -t $image context/$distro-$version
+}
+
+echo_run() {
+    local distro=$1
+    local version=$2
+    local image=nmk-vendor:$distro-$version
+    echo docker run -v $PWD/workspace:/workspace $image --name $distro-${version}_tmux-3.3a /nmk-vendor
+}
+
+run_all() {
+    local index
+    index=0
+    for i in $centos_versions; do
+        local run_cmd=$(echo_run centos $i)
+        send_tmux_keys centos $index "C-c"
+        send_tmux_keys centos $index "Enter"
+        send_tmux_keys centos $index " $run_cmd" -l
+        send_tmux_keys centos $index "Enter"
+        : $((index+=1))
+    done
+
+    index=0
+    for i in $ubuntu_versions; do
+        local run_cmd=$(echo_run ubuntu $i)
+        send_tmux_keys ubuntu $index "C-c"
+        send_tmux_keys ubuntu $index "Enter"
+        send_tmux_keys ubuntu $index " $run_cmd" -l
+        send_tmux_keys ubuntu $index "Enter"
+        : $((index+=1))
+    done
+    index=0
+    for i in $debian_versions; do
+        local run_cmd=$(echo_run debian $i)
+        send_tmux_keys debian $index "C-c"
+        send_tmux_keys debian $index "Enter"
+        send_tmux_keys debian $index " $run_cmd" -l
+        send_tmux_keys debian $index "Enter"
+        : $((index+=1))
+    done
+    index=0
+    for i in $amazonlinux_versions; do
+        local run_cmd=$(echo_run amazonlinux $i)
+        send_tmux_keys amazonlinux $index "C-c"
+        send_tmux_keys amazonlinux $index "Enter"
+        send_tmux_keys amazonlinux $index " $run_cmd" -l
+        send_tmux_keys amazonlinux $index "Enter"
+        : $((index+=1))
+    done
+}
+
+build_all() {
+    local index
+    index=0
+    for i in $centos_versions; do
+        local build_cmd=$(echo_build centos $i)
+        send_tmux_keys centos $index "C-c"
+        send_tmux_keys centos $index "Enter"
+        send_tmux_keys centos $index " $build_cmd" -l
+        send_tmux_keys centos $index "Enter"
+        : $((index+=1))
+    done
+    index=0
+    for i in $ubuntu_versions; do
+        local build_cmd=$(echo_build ubuntu $i)
+        send_tmux_keys ubuntu $index "C-c"
+        send_tmux_keys ubuntu $index "Enter"
+        send_tmux_keys ubuntu $index " $build_cmd" -l
+        send_tmux_keys ubuntu $index "Enter"
+        : $((index+=1))
+    done
+    index=0
+    for i in $debian_versions; do
+        local build_cmd=$(echo_build debian $i)
+        send_tmux_keys debian $index "C-c"
+        send_tmux_keys debian $index "Enter"
+        send_tmux_keys debian $index " $build_cmd" -l
+        send_tmux_keys debian $index "Enter"
+        : $((index+=1))
+    done
+    index=0
+    for i in $amazonlinux_versions; do
+        local build_cmd=$(echo_build amazonlinux $i)
+        send_tmux_keys amazonlinux $index "C-c"
+        send_tmux_keys amazonlinux $index "Enter"
+        send_tmux_keys amazonlinux $index " $build_cmd" -l
+        send_tmux_keys amazonlinux $index "Enter"
+        : $((index+=1))
+    done
+}
+
+# build_all
+run_all
