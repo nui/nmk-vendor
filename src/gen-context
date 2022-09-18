@@ -22,7 +22,7 @@ local distro=$1
 local version=$2
 
 local libevent_version=2.1.12
-local htop_version=3.1.2
+local htop_version=3.2.1
 
 local tmux_tag=3.3a-2
 local zsh_version=5.9
@@ -36,7 +36,7 @@ local htop_archive=htop-${htop_version}.tar.gz
 
 cat << EOF
 
-ADD *.sha /build/
+ADD *.sha256 /build/
 WORKDIR /build
 ENV LIBEVENT_BUILD_DIR=libevent-${libevent_version}-stable \\
     TMUX_BUILD_DIR=tmux-${tmux_tag} \\
@@ -44,21 +44,21 @@ ENV LIBEVENT_BUILD_DIR=libevent-${libevent_version}-stable \\
     HTOP_BUILD_DIR=htop-${htop_version}
 
 RUN curl -o ${libevent_archive} -sSL "https://github.com/libevent/libevent/releases/download/release-${libevent_version}-stable/${libevent_archive}" \\
-    && sha256sum -c ${libevent_archive}.sha \\
+    && sha256sum -c ${libevent_archive}.sha256 \\
     && tar -xf ${libevent_archive} \\
-    && rm ${libevent_archive} ${libevent_archive}.sha
+    && rm ${libevent_archive} ${libevent_archive}.sha256
 RUN curl -o ${tmux_archive} -sSL "https://github.com/nuimk/nmk-tmux/releases/download/${tmux_tag}/${tmux_archive}" \\
-    && sha256sum -c ${tmux_archive}.sha \\
+    && sha256sum -c ${tmux_archive}.sha256 \\
     && tar -xf ${tmux_archive} \\
-    && rm ${tmux_archive} ${tmux_archive}.sha
+    && rm ${tmux_archive} ${tmux_archive}.sha256
 RUN curl -o ${zsh_archive} -sSL "https://github.com/zsh-users/zsh/archive/${zsh_archive}" \\
-    && sha256sum -c ${zsh_archive}.sha \\
+    && sha256sum -c ${zsh_archive}.sha256 \\
     && tar -xf ${zsh_archive} \\
-    && rm ${zsh_archive} ${zsh_archive}.sha
+    && rm ${zsh_archive} ${zsh_archive}.sha256
 RUN curl -o ${htop_archive} -sSL "https://github.com/htop-dev/htop/archive/refs/tags/${htop_version}.tar.gz" \\
-    && sha256sum -c ${htop_archive}.sha \\
+    && sha256sum -c ${htop_archive}.sha256 \\
     && tar -xf ${htop_archive} \\
-    && rm ${htop_archive} ${htop_archive}.sha
+    && rm ${htop_archive} ${htop_archive}.sha256
 
 COPY entrypoint /
 ENTRYPOINT ["/entrypoint"]
@@ -77,7 +77,7 @@ generate_context_dir() {
     [[ $distro == centos ]] && fix_centos_dependency_conflict $version >> $dockerfile
     <Dockerfile.$distro >> $dockerfile
     build_context $distro $version >> $dockerfile
-    cp entrypoint *.sha $target
+    cp entrypoint *.sha256 $target
 }
 debian_versions=(8 9 10)
 for v in $debian_versions; do
