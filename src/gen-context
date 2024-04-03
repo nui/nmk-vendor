@@ -1,22 +1,6 @@
 #!/bin/zsh
 cd ${0:A:h}
 
-function print_remove_systemd {
-cat <<- EOU
-# Workaround for centos 7.0, 7.1
-RUN yum -y remove systemd
-EOU
-}
-
-fix_centos_dependency_conflict() {
-    local version=$1
-    local -a bug_versions
-    bug_versions=(7.0.1406 7.1.1503)
-    [[ ${bug_versions[(r)$version]} == $version ]] && {
-        print_remove_systemd
-    }
-}
-
 build_context() {
 local distro=$1
 local version=$2
@@ -74,7 +58,6 @@ generate_context_dir() {
     mkdir -p $target
     print "FROM $distro:$version" > $dockerfile
     print "ENV DOCKER_TAG=${distro}-${version}\n" >> $dockerfile
-    [[ $distro == centos ]] && fix_centos_dependency_conflict $version >> $dockerfile
     <Dockerfile.$distro >> $dockerfile
     build_context $distro $version >> $dockerfile
     cp entrypoint *.sha256 $target
@@ -84,27 +67,24 @@ for v in $debian_versions; do
     generate_context_dir debian $v
 done
 
-ubuntu_versions=(14.04 16.04 18.04 20.04 22.04)
+ubuntu_versions=(14.04 16.04 18.04 20.04 22.04 24.04)
 for v in $ubuntu_versions; do
     generate_context_dir ubuntu $v
 done
 
-# don't add centos 5 and 6
+# We only support centos-7
 centos_versions=(
     7.5.1804
     7.6.1810
     7.7.1908
     7.8.2003
     7.9.2009
-    # 8
-    # 8.1.1911
-    # 8.2.2004
 )
 for v in $centos_versions; do
     generate_context_dir centos $v
 done
 
-amazonlinux_versions=(1 2)
+amazonlinux_versions=(1 2 2023)
 for v in $amazonlinux_versions; do
     generate_context_dir amazonlinux $v
 done
