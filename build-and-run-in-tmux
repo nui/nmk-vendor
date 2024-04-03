@@ -2,11 +2,6 @@
 cd ${0:a:h}
 
 centos_versions=(
-    7.0.1406
-    7.1.1503
-    7.2.1511
-    7.3.1611
-    7.4.1708
     7.5.1804
     7.6.1810
     7.7.1908
@@ -17,7 +12,7 @@ centos_versions=(
     # 8.2.2004
 )
 
-debian_versions=(8 9 10)
+debian_versions=(10 11 12)
 
 ubuntu_versions=(14.04 16.04 18.04 20.04 22.04)
 

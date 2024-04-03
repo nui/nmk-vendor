@@ -53,11 +53,6 @@ windows:
         -
         -
         -
-        -
-        -
-        -
-        -
-        -
   - ubuntu:
       layout: even-vertical
       # Synchronize all panes of this window, can be enabled before or after the pane commands run.
