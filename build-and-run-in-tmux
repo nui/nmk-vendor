@@ -37,7 +37,7 @@ echo_run() {
     local distro=$1
     local version=$2
     local image=nmk-vendor:$distro-$version
-    echo docker run -v $PWD/workspace:/workspace $image --name $distro-${version}_tmux-3.3a /nmk-vendor
+    echo docker run -v $PWD/workspace:/workspace $image --name $distro-${version}_tmux-3.4 /nmk-vendor
 }
 
 run_all() {
