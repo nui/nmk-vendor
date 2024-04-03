@@ -9,7 +9,7 @@ RUN if [ "$USE_APT_MIRROR" = "true" ]; then sed -i "s|archive.ubuntu.com|$APT_MI
 RUN export DEBIAN_FRONTEND="noninteractive" \
     && apt-get -y update \
     && apt-get -y install apt-utils \
-    && apt-get -y install autoconf build-essential curl libncurses-dev libssl-dev vim-nox zsh \
+    && apt-get -y install autoconf bison build-essential curl libncurses-dev libssl-dev vim-nox zsh \
     # for silversearcher
     && apt-get -y install liblzma-dev libpcre3-dev pkg-config zlib1g-dev \
     # for build zsh documents
