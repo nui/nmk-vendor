@@ -1,0 +1,3 @@
+RUN apk add --update alpine-sdk automake autoconf ncurses-dev openssl-dev byacc
+RUN apk add --update curl xz zsh
+

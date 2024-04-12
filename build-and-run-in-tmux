@@ -15,6 +15,8 @@ ubuntu_versions=(14.04 16.04 18.04 20.04 22.04)
 
 amazonlinux_versions=(1 2 2023)
 
+alpine_versions=(3.16 3.17 3.18 3.19)
+
 send_tmux_keys() {
     local distro=$1
     local pane=$2
@@ -76,6 +78,15 @@ run_all() {
         send_tmux_keys amazonlinux $index "Enter"
         : $((index+=1))
     done
+    index=0
+    for i in $alpine_versions; do
+        local run_cmd=$(echo_run alpine $i)
+        send_tmux_keys alpine $index "C-c"
+        send_tmux_keys alpine $index "Enter"
+        send_tmux_keys alpine $index " $run_cmd" -l
+        send_tmux_keys alpine $index "Enter"
+        : $((index+=1))
+    done
 }
 
 build_all() {
@@ -114,6 +125,15 @@ build_all() {
         send_tmux_keys amazonlinux $index "Enter"
         send_tmux_keys amazonlinux $index " $build_cmd" -l
         send_tmux_keys amazonlinux $index "Enter"
+        : $((index+=1))
+    done
+    index=0
+    for i in $alpine_versions; do
+        local build_cmd=$(echo_build alpine $i)
+        send_tmux_keys alpine $index "C-c"
+        send_tmux_keys alpine $index "Enter"
+        send_tmux_keys alpine $index " $build_cmd" -l
+        send_tmux_keys alpine $index "Enter"
         : $((index+=1))
     done
 }
