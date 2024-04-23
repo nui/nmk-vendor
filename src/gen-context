@@ -43,7 +43,17 @@ RUN curl -o ${htop_archive} -sSL "https://github.com/htop-dev/htop/archive/refs/
     && sha256sum -c ${htop_archive}.sha256 \\
     && tar -xf ${htop_archive} \\
     && rm ${htop_archive} ${htop_archive}.sha256
+EOF
 
+if [ "$distro" = debian ]; then
+cat << EOF
+RUN apt-get -yq update \\
+    && apt-get -yq build-dep libpcre3 \\
+    && apt-get -yq source libncursesw6 libpcre3
+EOF
+fi
+
+cat << EOF
 COPY entrypoint /
 ENTRYPOINT ["/entrypoint"]
 EOF
@@ -60,7 +70,7 @@ generate_context_dir() {
     print "ENV DOCKER_TAG=${distro}-${version}\n" >> $dockerfile
     <Dockerfile.$distro >> $dockerfile
     build_context $distro $version >> $dockerfile
-    cp entrypoint *.sha256 $target
+    cp entrypoint *.sha256 *.sh $target
 }
 debian_versions=(10 11 12)
 for v in $debian_versions; do

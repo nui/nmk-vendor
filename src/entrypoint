@@ -84,6 +84,60 @@ if [[ $_TMUX == true ]]; then
 fi
 
 if [[ $_ZSH == true ]]; then
+    # install ncurse if neccessary (on debian)
+    ncurse_dir=$(find . -mindepth 1 -maxdepth 1 -name 'ncurse*' -type d)
+    if [ -d "$ncurse_dir" ]; then
+        cd $ncurse_dir
+            # --enable-echo \
+        ./configure --prefix=$PREFIX \
+            --with-shared \
+            --without-profile \
+            --without-debug \
+            --disable-rpath \
+            --disable-stripping \
+            --enable-const \
+            --enable-pc-files \
+            --without-ada \
+            --without-tests \
+            --without-progs \
+            --with-gpm \
+            --enable-symlinks \
+            --disable-setuid-environ \
+            --disable-root-access \
+            --disable-termcap \
+            --with-ticlib=tic \
+            --with-termlib=tinfo \
+            --with-versioned-syms \
+            --disable-wattr-macros \
+            --disable-relink \
+            --disable-pkg-ldflags \
+            --enable-overwrite \
+            --with-xterm-kbs=del \
+            --without-normal \
+            --with-progs \
+            --enable-widec
+        make
+        make install
+        cd ..
+    fi
+
+    pcre_dir=$(find . -mindepth 1 -maxdepth 1 -name 'pcre3*' -type d)
+    if [ -d "$pcre_dir" ]; then
+        cd $pcre_dir
+        autoreconf -f -i
+        ./configure --prefix=$PREFIX \
+            --with-shared \
+            --enable-utf8 \
+            --enable-unicode-properties \
+            --disable-silent-rules \
+            --enable-jit \
+            --enable-pcre16 \
+            --enable-pcre32
+        make
+        make install
+        cd ..
+    fi
+
     cd $ZSH_BUILD_DIR
     ./Util/preconfig
 
