@@ -88,12 +88,22 @@ if [[ $_ZSH == true ]]; then
     ncurse_dir=$(find . -mindepth 1 -maxdepth 1 -name 'ncurse*' -type d)
     if [ -d "$ncurse_dir" ]; then
         cd $ncurse_dir
-            # --enable-echo \
-        ./configure --prefix=$PREFIX \
+            # --build=x86_64-linux-gnu \
+            # --with-pkg-config-libdir=/usr/lib/x86_64-linux-gnu/pkgconfig \
+            # --with-install-prefix=/<<PKGBUILDDIR>>/debian/tmp \
+            # --libdir=/usr/lib/x86_64-linux-gnu \
+            # --mandir=/usr/share/man \
+            # --without-shared \
+            # --disable-widec \
+            # --without-gpm
+        ./configure \
+            --prefix=$PREFIX \
             --with-shared \
+            --with-manpage-format=normal \
             --without-profile \
             --without-debug \
             --disable-rpath \
+            --enable-echo \
             --disable-stripping \
             --enable-const \
             --enable-pc-files \
@@ -105,6 +115,8 @@ if [[ $_ZSH == true ]]; then
             --disable-setuid-environ \
             --disable-root-access \
             --disable-termcap \
+            --with-default-terminfo-dir=/etc/terminfo \
+            --with-terminfo-dirs="/etc/terminfo:/lib/terminfo:/usr/share/terminfo" \
             --with-ticlib=tic \
             --with-termlib=tinfo \
             --with-versioned-syms \
@@ -112,10 +124,8 @@ if [[ $_ZSH == true ]]; then
             --disable-relink \
             --disable-pkg-ldflags \
             --enable-overwrite \
-            --with-xterm-kbs=del \
-            --without-normal \
-            --with-progs \
-            --enable-widec
+            --enable-widec \
+            --with-xterm-kbs=del
         make
         make install
         cd ..
