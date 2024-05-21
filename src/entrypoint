@@ -37,6 +37,9 @@ _TMUX=true
 _ZSH=true
 _NAME=
 
+_CORES=1
+# _CORES=$(nproc)
+
 while true; do
     case $1 in
         --no-htop ) _HTOP=false; shift ;;
@@ -55,6 +58,11 @@ if [[ ! -n $1 ]]; then
     exit 1
 fi
 
+is_debian_based=false
+if command -v apt-get > /dev/null 2>&1; then
+    is_debian_based=true
+fi
+
 PREFIX=$1
 cd /build
 
@@ -64,7 +72,7 @@ if [[ $_HTOP == true ]]; then
     cd $HTOP_BUILD_DIR
     ./autogen.sh
     ./configure --prefix=$PREFIX
-    make
+    make -j $_CORES
     make install-strip
     cd ..
 fi
@@ -72,15 +80,26 @@ fi
 if [[ $_TMUX == true ]]; then
     cd $LIBEVENT_BUILD_DIR
     ./configure --prefix=$PREFIX --enable-shared
-    make
+    make -j $_CORES
     make install
     cd ..
 
     cd $TMUX_BUILD_DIR
-    PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig ./configure --prefix=$PREFIX --disable-dependency-tracking
-    make
+    tmux_static_flags=
+    if [[ $is_debian_based == true ]]; then
+        tmux_static_flags=--enable-static
+    fi
+    PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig ./configure --prefix=$PREFIX --disable-dependency-tracking $tmux_static_flags
+    make -j $_CORES
     make install-strip
     cd ..
+
+    if [[ -n "$tmux_static_flags" ]]; then
+        # remove it because we use static build
+        cd $LIBEVENT_BUILD_DIR
+        make uninstall
+        cd ..
+    fi
 fi
 
 if [[ $_ZSH == true ]]; then
@@ -126,7 +145,7 @@ if [[ $_ZSH == true ]]; then
             --enable-overwrite \
             --enable-widec \
             --with-xterm-kbs=del
-        make
+        make -j $_CORES
         make install
         cd ..
     fi
@@ -143,7 +162,7 @@ if [[ $_ZSH == true ]]; then
             --enable-jit \
             --enable-pcre16 \
             --enable-pcre32
-        make
+        make -j $_CORES
         make install
         cd ..
     fi
@@ -197,9 +216,21 @@ if [[ $_ZSH == true ]]; then
         sed -i -E "s/(.*)${module}.mdd link=no(.*)/\1${module}.mdd link=static\2/" config.modules
     }
     cat config.modules
-    make
+    make -j $_CORES
     make STRIPFLAGS="-s" install.bin install.fns
     cd ..
+
+    # uninstall dependencies
+    if [ -d "$ncurse_dir" ]; then
+        cd $ncurse_dir
+        make uninstall
+        cd ..
+    fi
+    if [ -d "$pcre_dir" ]; then
+        cd $pcre_dir
+        make uninstall
+        cd ..
+    fi
 fi
 
 cd $PREFIX
