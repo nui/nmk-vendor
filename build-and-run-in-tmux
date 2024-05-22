@@ -11,7 +11,7 @@ centos_versions=(
 
 debian_versions=(10 11 12)
 
-ubuntu_versions=(14.04 16.04 18.04 20.04 22.04)
+ubuntu_versions=(14.04 16.04 18.04 20.04 22.04 24.04)
 
 amazonlinux_versions=(1 2 2023)
 
