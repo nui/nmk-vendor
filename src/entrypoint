@@ -231,6 +231,13 @@ if [[ $_ZSH == true ]]; then
         make uninstall
         cd ..
     fi
+
+    # remove lib dir if there is no files
+    lib_dir=$PREFIX/lib
+    files_in_lib="$(find $lib_dir -type f)"
+    if [[ $#files_in_lib -eq 0 ]]; then
+        rm -rf $lib_dir
+    fi
 fi
 
 cd $PREFIX
