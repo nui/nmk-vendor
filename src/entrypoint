@@ -17,6 +17,7 @@ EOU
 
 _OPTIONS=(
     help
+    full
     no-htop
     no-tmux
     no-zsh
@@ -36,6 +37,8 @@ _HTOP=true
 _TMUX=true
 _ZSH=true
 _NAME=
+# include share library in final tar
+_FULL=false
 
 _CORES=1
 # _CORES=$(nproc)
@@ -45,6 +48,7 @@ while true; do
         --no-htop ) _HTOP=false; shift ;;
         --no-tmux ) _TMUX=false; shift ;;
         --no-zsh ) _ZSH=false; shift ;;
+        --full ) _FULL=true; shift ;;
         -n | --name ) _NAME=$2; shift 2;;
         -h | --help ) usage; exit 0 ;;
         -- ) shift; break ;;
@@ -221,15 +225,17 @@ if [[ $_ZSH == true ]]; then
     cd ..
 
     # uninstall dependencies
-    if [ -d "$ncurse_dir" ]; then
-        cd $ncurse_dir
-        make uninstall
-        cd ..
-    fi
-    if [ -d "$pcre_dir" ]; then
-        cd $pcre_dir
-        make uninstall
-        cd ..
+    if [[ $_FULL == false ]]; then
+        if [[ -d "$ncurse_dir" ]]; then
+            cd $ncurse_dir
+            make uninstall
+            cd ..
+        fi
+        if [[ -d "$pcre_dir" ]]; then
+            cd $pcre_dir
+            make uninstall
+            cd ..
+        fi
     fi
 
     # remove lib dir if there is no files

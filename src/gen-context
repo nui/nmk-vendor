@@ -45,12 +45,28 @@ RUN curl -o ${htop_archive} -sSL "https://github.com/htop-dev/htop/archive/refs/
     && rm ${htop_archive} ${htop_archive}.sha256
 EOF
 
-if [ "$distro" = debian ]; then
+if [[ "$distro" = debian ]]; then
 cat << EOF
 RUN apt-get -yq update \\
     && apt-get -yq build-dep libpcre3 \\
     && apt-get -yq source libncursesw6 libpcre3
 EOF
+fi
+if [[ "$distro" = ubuntu ]]; then
+cat << EOF
+RUN apt-get -yq update \\
+    && apt-get -yq build-dep libpcre3 \\
+    && apt-get -yq source  libpcre3 \\
+EOF
+if [[ "$version" = "14.04" || "$version" = "16.04" || "$version" = "18.04"  ]]; then
+cat << EOF
+    libncursesw5
+EOF
+else
+cat << EOF
+    libncursesw6
+EOF
+fi
 fi
 
 cat << EOF

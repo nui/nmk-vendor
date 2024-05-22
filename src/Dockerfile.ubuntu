@@ -1,10 +1,5 @@
-ARG USE_APT_CACHER="false"
-ARG USE_APT_MIRROR="false"
-ARG APT_CACHER_HOST="172.17.0.1"
-ARG APT_MIRROR="th.archive.ubuntu.com"
-
-RUN if [ "$USE_APT_MIRROR" = "true" ]; then sed -i "s|archive.ubuntu.com|$APT_MIRROR|g" /etc/apt/sources.list; fi \
-    && if [ "$USE_APT_CACHER" = "true" ]; then echo "Acquire::http::Proxy \"http://$APT_CACHER_HOST:3142\";" > /etc/apt/apt.conf.d/11proxy; fi
+# Enable source
+RUN --mount=type=bind,source=/,target=/context sh /context/enable-ubuntu-source.sh
 
 RUN export DEBIAN_FRONTEND="noninteractive" \
     && apt-get -y update \

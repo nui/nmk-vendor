@@ -36,14 +36,15 @@ echo_run() {
     local distro=$1
     local version=$2
     local image=nmk-vendor:$distro-$version
-    echo docker run -v $PWD/workspace:/workspace $image --name $distro-${version}_tmux-3.4 /nmk-vendor
+    shift 2
+    echo docker run -v $PWD/workspace:/workspace $image --name $distro-${version}_tmux-3.4 "$@" /nmk-vendor
 }
 
 run_all() {
     local index
     index=0
     for i in $centos_versions; do
-        local run_cmd=$(echo_run centos $i)
+        local run_cmd=$(echo_run centos $i "$@")
         send_tmux_keys centos $index "C-c"
         send_tmux_keys centos $index "Enter"
         send_tmux_keys centos $index " $run_cmd" -l
@@ -53,7 +54,7 @@ run_all() {
 
     index=0
     for i in $ubuntu_versions; do
-        local run_cmd=$(echo_run ubuntu $i)
+        local run_cmd=$(echo_run ubuntu $i "$@")
         send_tmux_keys ubuntu $index "C-c"
         send_tmux_keys ubuntu $index "Enter"
         send_tmux_keys ubuntu $index " $run_cmd" -l
@@ -62,7 +63,7 @@ run_all() {
     done
     index=0
     for i in $debian_versions; do
-        local run_cmd=$(echo_run debian $i)
+        local run_cmd=$(echo_run debian $i "$@")
         send_tmux_keys debian $index "C-c"
         send_tmux_keys debian $index "Enter"
         send_tmux_keys debian $index " $run_cmd" -l
@@ -71,7 +72,7 @@ run_all() {
     done
     index=0
     for i in $amazonlinux_versions; do
-        local run_cmd=$(echo_run amazonlinux $i)
+        local run_cmd=$(echo_run amazonlinux $i "$@")
         send_tmux_keys amazonlinux $index "C-c"
         send_tmux_keys amazonlinux $index "Enter"
         send_tmux_keys amazonlinux $index " $run_cmd" -l
@@ -80,7 +81,7 @@ run_all() {
     done
     index=0
     for i in $alpine_versions; do
-        local run_cmd=$(echo_run alpine $i)
+        local run_cmd=$(echo_run alpine $i "$@")
         send_tmux_keys alpine $index "C-c"
         send_tmux_keys alpine $index "Enter"
         send_tmux_keys alpine $index " $run_cmd" -l
@@ -140,3 +141,4 @@ build_all() {
 
 build_all
 # run_all
+# run_all --full
