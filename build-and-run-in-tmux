@@ -2,11 +2,11 @@
 cd ${0:a:h}
 
 centos_versions=(
-    7.5.1804
-    7.6.1810
-    7.7.1908
-    7.8.2003
-    7.9.2009
+    # 7.5.1804
+    # 7.6.1810
+    # 7.7.1908
+    # 7.8.2003
+    # 7.9.2009
 )
 
 debian_versions=(10 11 12)
@@ -37,7 +37,7 @@ echo_run() {
     local version=$2
     local image=nmk-vendor:$distro-$version
     shift 2
-    echo docker run -v $PWD/workspace:/workspace $image --name $distro-${version}_tmux-3.4 "$@" /nmk-vendor
+    echo docker run -v $PWD/workspace:/workspace $image --name $distro-${version}_tmux-3.5a "$@" /nmk-vendor
 }
 
 run_all() {
