@@ -10,12 +10,17 @@ centos_versions=(
 )
 
 debian_versions=(10 11 12)
+# debian_versions=()
 
 ubuntu_versions=(14.04 16.04 18.04 20.04 22.04 24.04)
+# ubuntu_versions=()
+
 
 amazonlinux_versions=(1 2 2023)
+# amazonlinux_versions=()
 
-alpine_versions=(3.16 3.17 3.18 3.19 3.20)
+alpine_versions=(3.16 3.17 3.18 3.19 3.20 3.21)
+# alpine_versions=(3.21)
 
 send_tmux_keys() {
     local distro=$1
